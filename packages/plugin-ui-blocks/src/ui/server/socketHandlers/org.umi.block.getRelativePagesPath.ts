@@ -21,8 +21,8 @@ export default function({ payload, api, success }: IHandlerOpts) {
     .replace(/\//g, '/')
     .replace(/\/\//g, '/');
 
-  debug('getRelativePagesPath', targetPath, api.paths.absPagesPath);
-  debug('relativePagePath', relativePagePath);
+  console.log('getRelativePagesPath', targetPath, api.paths.absPagesPath);
+  console.log('relativePagePath', relativePagePath);
 
   success({
     data: relativePagePath,

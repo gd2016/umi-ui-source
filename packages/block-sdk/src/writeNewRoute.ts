@@ -26,7 +26,7 @@ export function writeNewRoute(newRoute, configPath, absSrcPath) {
  * @param {*} newRoute
  */
 export function getNewRouteCode(configPath, newRoute, absSrcPath) {
-  debug(`find routes in configPath: ${configPath}`);
+  console.log(`find routes in configPath: ${configPath}`);
   const ast: any = parser.parse(readFileSync(configPath, 'utf-8'), {
     sourceType: 'module',
     plugins: ['typescript'],
@@ -107,6 +107,7 @@ export function getNewRouteCode(configPath, newRoute, absSrcPath) {
     throw new Error('route array config not found.');
   }
   const code = generateCode(ast);
+  console.log(code,configPath)
   debug(code, configPath);
   return { code, routesPath: configPath };
 }
@@ -121,7 +122,7 @@ function getNewRouteNode(newRoute: any) {
  * @param {*} newRoute 新的路由配置
  */
 export function writeRouteNode(targetNode, newRoute, currentPath = '/') {
-  debug(`writeRouteNode currentPath newRoute.path: ${newRoute.path} currentPath: ${currentPath}`);
+  console.log(`writeRouteNode currentPath newRoute.path: ${newRoute.path} currentPath: ${currentPath}`);
   const { elements } = targetNode;
   const paths = elements.map(ele => {
     if (!t.isObjectExpression(ele)) {
@@ -142,7 +143,7 @@ export function writeRouteNode(targetNode, newRoute, currentPath = '/') {
     }
     return fullPath;
   });
-  debug('paths', paths);
+  console.log('paths', paths);
 
   const matchedIndex = paths.findIndex(p => p && newRoute.path.indexOf(winPath(p)) === 0);
 

@@ -15,11 +15,17 @@ const debug = createDebug('umi:umiui:plugin-ui-blocks:addBlock');
 
 class Flow extends EventEmitter {
   public api: IApi;
+
   public ctx: IFlowContext;
+
   public tasks: any[] = [];
+
   public isCancel: boolean = false; // 用户取消
+
   public logger: Logger;
+
   public proc: ChildProcess;
+
   public state: FlowState = FlowState.INIT;
 
   constructor({ api, args }: { api: IApi }) {
@@ -47,7 +53,7 @@ class Flow extends EventEmitter {
 
     // eslint-disable-next-line no-restricted-syntax
     for (const { name, task, state } of this.tasks) {
-      debug('Flow current task', name);
+      console.log('Flow current task', name);
       // 用户取消任务
       if (this.isCancel) {
         hasBreak = true;

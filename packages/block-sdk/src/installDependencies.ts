@@ -48,7 +48,6 @@ export async function installDependencies(
   ctx,
 ) {
   const exec = selfExeca || execa;
-
   // read project package.json
   const projectPkgPath = await applyPlugins({
     key: '_modifyBlockPackageJSONPath',
@@ -64,12 +63,23 @@ export async function installDependencies(
 
   // get _mock.js dependencie
   let mockDevDependencies = {};
+  console.log('*****ctx****');
+  console.log(ctx);
+  
+  
   const mockFilePath = join(ctx.sourcePath, 'src/_mock.js');
   if (existsSync(mockFilePath)) {
     mockDevDependencies = getMockDependencies(readFileSync(mockFilePath, 'utf-8'), ctx.pkg);
   }
   const allBlockDependencies = getAllBlockDependencies(ctx.templateTmpDirPath, ctx.pkg);
   // 构造 _modifyBlockDependencies 的执行参数
+  console.log('allBlockDependencies:',allBlockDependencies);
+  console.log('projectPkg.dependencies:',projectPkg.dependencies);
+  console.log('mockDevDependencies:',mockDevDependencies);
+  console.log('projectPkgAllDeps:',{
+    ...projectPkg.devDependencies,
+    ...projectPkg.dependencies,
+  });
   const initialValue = dependenciesConflictCheck(
     allBlockDependencies,
     projectPkg.dependencies,
@@ -85,7 +95,7 @@ export async function installDependencies(
     type: ApplyPluginsType?.modify || 'modify',
     initialValue,
   });
-  debug(
+  console.log(
     `conflictDeps ${conflicts}, lackDeps ${lacks}`,
     `devConflictDeps ${devConflicts}, devLackDeps ${devLacks}`,
   );
@@ -102,7 +112,7 @@ export async function installDependencies(
 
   // find lack conflict, auto install
   if (dryRun) {
-    debug('dryRun is true, skip install dependencies');
+    console.log('dryRun is true, skip install dependencies');
     return;
   }
 
@@ -198,7 +208,7 @@ export async function installFilesDependencies(
   ctx,
 ) {
   const exec = selfExeca || execa;
-  debug('files tasks - install');
+  console.log('files tasks - install');
 
   // read project package.json
   const projectPkgPath = await applyPlugins({
@@ -231,7 +241,7 @@ export async function installFilesDependencies(
     type: ApplyPluginsType?.modify || 'modify',
     initialValue,
   });
-  debug(
+  console.log(
     `conflictDeps ${conflicts}, lackDeps ${lacks}`,
     `devConflictDeps ${devConflicts}, devLackDeps ${devLacks}`,
   );
@@ -248,7 +258,7 @@ export async function installFilesDependencies(
 
   // find lack conflict, auto install
   if (dryRun) {
-    debug('dryRun is true, skip install dependencies');
+    console.log('dryRun is true, skip install dependencies');
     return;
   }
 

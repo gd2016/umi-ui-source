@@ -75,6 +75,7 @@ const buildPlugin = cwd => {
     )
     .map(({ pkgPath }) => pkgPath);
 
+  console.log(uiPlugins);
   const buildQueue = [...uiPlugins.map(buildPlugin), uiApp()];
   try {
     await Promise.all(buildQueue);

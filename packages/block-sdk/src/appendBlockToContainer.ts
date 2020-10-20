@@ -8,18 +8,18 @@ import { INSERT_BLOCK_PLACEHOLDER, UMI_UI_FLAG_PLACEHOLDER } from './sdk/constan
 const debug = createDebug('umiui:block-sdk:appendBlockToContainer');
 
 export const appendBlockToContainer = ({ entryPath, blockFolderName, dryRun, index }) => {
-  debug('start to update the entry file for block(s) under the path...');
+  console.log('start to update the entry file for block(s) under the path...');
 
   /**
    * 获取地址
    */
   const oldEntry = readFileSync(entryPath, 'utf-8');
-  debug(`insert component ${blockFolderName} with index ${index}`);
-  debug('entryPath', entryPath);
-  debug('blockFolderName', blockFolderName);
+  console.log(`insert component ${blockFolderName} with index ${index}`);
+  console.log('entryPath', entryPath);
+  console.log('blockFolderName', blockFolderName);
 
   const blockPath = join(dirname(entryPath), blockFolderName);
-  debug('blockPath', blockPath);
+  console.log('blockPath', blockPath);
 
   const absolutePath =
     findJS({
@@ -30,8 +30,8 @@ export const appendBlockToContainer = ({ entryPath, blockFolderName, dryRun, ind
       base: blockPath,
       fileNameWithoutExt: 'index',
     });
-  debug('absolutePath', absolutePath);
-
+  console.log('absolutePath', absolutePath);
+  debug(absolutePath)
   const blockContent = readFileSync(absolutePath, 'utf-8');
 
   try {

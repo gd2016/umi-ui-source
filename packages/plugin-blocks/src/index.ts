@@ -17,7 +17,7 @@ export default (api: IApi) => {
     },
   });
 
-  debug(`blockConfig ${blockConfig}`);
+  console.log(`blockConfig ${blockConfig}`);
 
   async function block(args: any = {}, opts = {}) {
     let retCtx;

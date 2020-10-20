@@ -82,7 +82,7 @@ export const addPrefix = path => {
 
 export async function getCtx(url, args: AddBlockOption = {}, api: IApi): Promise<CtxTypes> {
   const { userConfig } = api;
-  debug(`get url ${url}`);
+  console.log(`get url ${url}`);
 
   const ctx: CtxTypes = await getParsedData(url, { ...(userConfig?.block || {}), ...args });
 
@@ -127,8 +127,8 @@ export async function addBlock(args: AddBlockOption = {}, opts: AddBlockOption =
 
   const useYarn = existsSync(join(paths.cwd, 'yarn.lock'));
   const defaultNpmClient = blockConfig.npmClient || (useYarn ? 'yarn' : 'npm');
-  debug(`defaultNpmClient: ${defaultNpmClient}`);
-  debug(`args: ${JSON.stringify(args)}`);
+  console.log(`defaultNpmClient: ${defaultNpmClient}`);
+  console.log(`args: ${JSON.stringify(args)}`);
 
   // get faster registry url
   const registryUrl = await getNpmRegistry();
@@ -234,8 +234,8 @@ export async function addBlock(args: AddBlockOption = {}, opts: AddBlockOption =
     // when user use `umi block add --page`
     isPageBlock = isPage;
   }
-  debug(`isPageBlock: ${isPageBlock}`);
-  debug(`ctx.filePath: ${ctx.filePath}`);
+  console.log(`isPageBlock: ${isPageBlock}`);
+  console.log(`ctx.filePath: ${ctx.filePath}`);
 
   const generator = new BlockGenerator({
     name: args._ ? args._.slice(2) : [],
@@ -254,9 +254,9 @@ export async function addBlock(args: AddBlockOption = {}, opts: AddBlockOption =
     },
   });
   try {
-    debug('addBlock - generator start');
+    console.log('addBlock - generator start');
     await generator.run();
-    debug('addBlock - generator end');
+    console.log('addBlock - generator end');
   } catch (e) {
     spinner.fail();
     throw new Error(e);
@@ -265,12 +265,12 @@ export async function addBlock(args: AddBlockOption = {}, opts: AddBlockOption =
   // write dependencies
   if (ctx.pkg.blockConfig && ctx.pkg.blockConfig.dependencies) {
     const subBlocks = ctx.pkg.blockConfig.dependencies;
-    debug('addBlock - write Dependencies');
+    console.log('addBlock - write Dependencies');
     try {
       await Promise.all(
         subBlocks.map((block: string) => {
           const subBlockPath = join(ctx.templateTmpDirPath, block);
-          debug(`subBlockPath: ${subBlockPath}`);
+          console.log(`subBlockPath: ${subBlockPath}`);
           return new BlockGenerator({
             name: args._.slice(2),
             args: {
@@ -330,7 +330,7 @@ export async function addBlock(args: AddBlockOption = {}, opts: AddBlockOption =
     });
     try {
       if (!dryRun) {
-        debug('addBlock - writeNewRoute');
+        console.log('addBlock - writeNewRoute');
         writeNewRoute(newRouteConfig, configFile, paths.absSrcPath);
       }
     } catch (e) {
@@ -345,7 +345,7 @@ export async function addBlock(args: AddBlockOption = {}, opts: AddBlockOption =
     spinner.start(
       `Write block component ${generator.blockFolderName} import to ${generator.entryPath}`,
     );
-    debug('addBlock - appendBlockToContainer');
+    console.log('addBlock - appendBlockToContainer');
     try {
       appendBlockToContainer({
         entryPath: generator.entryPath,

@@ -38,7 +38,7 @@ export default function(cwd) {
 
   // 依赖是 link 文件
   const depDir = join(cwd, 'node_modules', deps[0]);
-  debug('depDir', depDir, deps);
+  console.log('depDir', depDir, deps);
   const isDepSymLink = lstatSync(depDir)?.isSymbolicLink?.();
   if (isDepSymLink) {
     if (process.env.BIGFISH_COMPAT) {

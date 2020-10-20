@@ -437,6 +437,8 @@ export async function fetchCDNBlocks({
   const prefixCDN = `https://cdn.jsdelivr.net/npm/${pkg}@${version}`;
   try {
     const { body } = await got(`${prefixCDN}/${summary}`);
+    console.log(`blockCDN: ${prefixCDN}/${summary}`);
+    
     const data = JSON.parse(body);
     const list = (data.list || data.blocks || data.template).map(factor || (item => item));
     return {

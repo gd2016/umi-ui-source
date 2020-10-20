@@ -24,7 +24,7 @@ const generatorFunc = async (ctx: IFlowContext, args: IAddFilesBlockOption) => {
     // when user use `umi block add --page`
     isPageBlock = isPage;
   }
-  debug(`isPageBlock: ${isPageBlock}`);
+  console.log(`isPageBlock: ${isPageBlock}`);
 
   const latestPkgPath = winPath(join(__dirname, '../../../../../package.json'));
 
@@ -61,7 +61,7 @@ const generatorFunc = async (ctx: IFlowContext, args: IAddFilesBlockOption) => {
   //     await Promise.all(
   //       subBlocks.map((block: string) => {
   //         const subBlockPath = join(templateTmpDirPath, block);
-  //         debug(`subBlockPath: ${subBlockPath}`);
+  //         console.log(`subBlockPath: ${subBlockPath}`);
   //         return new BlockGenerator({
   //           name: args._ ? args._.slice(2) : [],
   //           args: {
@@ -88,7 +88,7 @@ const generatorFunc = async (ctx: IFlowContext, args: IAddFilesBlockOption) => {
   //   }
   // }
 
-  debug('Success generate files');
+  console.log('Success generate files');
   logger.appendLog('🎉  Success generate files\n');
 
   // 调用 sylvanas 转化 ts
@@ -109,7 +109,7 @@ const generatorFunc = async (ctx: IFlowContext, args: IAddFilesBlockOption) => {
   }
 
   ctx.stages.generator = generator;
-  debug('run_generator finish');
+  console.log('run_generator finish');
 };
 
 export default generatorFunc;

@@ -12,6 +12,8 @@ export async function init(opts = {}) {
     function handler(e) {
       const { type, payload } = JSON.parse(e.data);
       onMessage({ type, payload });
+      console.log(type, payload);
+      
       messageHandlers.forEach(h => {
         h({ type, payload });
       });

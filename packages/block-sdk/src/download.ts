@@ -19,7 +19,7 @@ export function makeSureMaterialsTempPathExist(dryRun) {
     return blocksTempPath;
   }
   if (!existsSync(blocksTempPath)) {
-    debug(`mkdir blocksTempPath ${blocksTempPath}`);
+    console.log(`mkdir blocksTempPath ${blocksTempPath}`);
     mkdirp.sync(blocksTempPath);
   }
   return blocksTempPath;
@@ -145,22 +145,22 @@ export async function parseGitUrl(url, closeFastGithub) {
  * @param blockConfig
  */
 export async function getParsedData(url, blockConfig) {
-  debug(`url: ${url}`);
+  console.log(`url: ${url}`);
   let realUrl;
   const defaultGitUrl = blockConfig.defaultGitUrl || 'https://github.com/umijs/umi-blocks';
   if (isGitUrl(url)) {
     realUrl = url;
-    debug('is git url');
+    console.log('is git url');
     // eslint-disable-next-line no-useless-escape
   } else if (/^[\w]+[\w\-\/]*$/.test(url)) {
     realUrl = `${defaultGitUrl}/tree/master/${url}`;
-    debug(`will use ${realUrl} as the block url`);
+    console.log(`will use ${realUrl} as the block url`);
     // eslint-disable-next-line no-useless-escape
   } else if (/^[\.\/]|^[c-zC-Z]:/.test(url)) {
     // ^[c-zC-Z]:  目的是为了支持window下的绝对路径，比如 `C:\\Project\\umi`
     // locale path for test
     const sourcePath = resolve(process.cwd(), url);
-    debug(`will use ${sourcePath} as the block url`);
+    console.log(`will use ${sourcePath} as the block url`);
     return {
       isLocal: true,
       sourcePath,
@@ -169,6 +169,7 @@ export async function getParsedData(url, blockConfig) {
     throw new Error(`${url} can't match any pattern`);
   }
   const args = await parseGitUrl(realUrl, blockConfig.closeFastGithub);
-  debug('getParsedData args', args);
+  console.log('getParsedData args', args);
+  debug('getParsedData args', args)
   return args;
 }

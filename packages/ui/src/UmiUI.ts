@@ -126,7 +126,7 @@ export default class UmiUI {
     const servicePath = process.env.LOCAL_DEBUG
       ? 'umi/lib/cjs'
       : resolveFrom.silent(cwd, serviceModule) || 'umi/lib/cjs';
-    debug(`Service path: ${servicePath}`);
+    console.log(`Service path: ${servicePath}`);
     // eslint-disable-next-line import/no-dynamic-require
     const { Service: UmiService } = require(servicePath);
     const service = new UmiService({
@@ -190,7 +190,7 @@ export default class UmiUI {
       this.servicesByKey[key] = service;
     } else if (!this.servicesByKey[key]) {
       // Attach Service
-      debug(`Attach service for ${key}`);
+      console.log(`Attach service for ${key}`);
       // Use local service and detect version compatibility
       const binModule = process.env.BIGFISH_COMPAT
         ? '@alipay/bigfish/bin/bigfish.js'
@@ -218,9 +218,9 @@ export default class UmiUI {
 
       try {
         const currentService = this.getService(cwd);
-        debug(`Attach service for ${key} after new and before init()`);
+        console.log(`Attach service for ${key} after new and before init()`);
         await currentService.init();
-        debug(`Attach service for ${key} ${chalk.green('SUCCESS')}`);
+        console.log(`Attach service for ${key} ${chalk.green('SUCCESS')}`);
         this.servicesByKey[key] = currentService;
       } catch (e) {
         if (isDepLost(e) || isPluginLost(e)) {
@@ -333,7 +333,7 @@ export default class UmiUI {
       type: service.ApplyPluginsType.add,
       initialValue: [],
     });
-    debug('uiPlugins', uiPlugins);
+    console.log('uiPlugins', uiPlugins);
     const script = getClientScript(uiPlugins);
     success({
       script,
@@ -561,7 +561,7 @@ export default class UmiUI {
       } catch (e) {}
       return false;
     });
-    debug('ret', ret);
+    console.log('ret', ret);
 
     this.npmClients = ret;
   }
@@ -1050,7 +1050,7 @@ export default class UmiUI {
                 url,
               },
             };
-            debug(`send ${JSON.stringify(message)}`);
+            console.log(`send ${JSON.stringify(message)}`);
             process.send(message);
           }
         }

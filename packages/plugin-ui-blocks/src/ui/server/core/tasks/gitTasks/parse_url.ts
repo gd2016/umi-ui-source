@@ -27,7 +27,7 @@ async function getCtx({
     ...args,
   });
 
-  debug('getCtx', ctx);
+  console.log('getCtx', ctx);
 
   if (!ctx.isLocal) {
     const blocksTempPath = makeSureMaterialsTempPathExist(args.dryRun);
@@ -75,9 +75,9 @@ const parseUrl = async (ctx: IFlowContext, args: IAddBlockOption) => {
     },
     api: ctx.api,
   });
-
   ctx.stages.blockCtx = blockCtx;
   ctx.stages.registry = args.registry || registryUrl;
+  console.log('ctx.stages', ctx.stages);
 };
 
 export default parseUrl;

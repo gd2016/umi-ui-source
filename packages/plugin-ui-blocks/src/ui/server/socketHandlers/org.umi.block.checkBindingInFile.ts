@@ -15,15 +15,15 @@ export default async ({ success, payload, api, failure }: IHandlerOpts) => {
     name: string;
   };
   const { paths } = api;
-  debug('absPagesPath', paths.absPagesPath);
-  debug('targetPath', targetPath);
+  console.log('absPagesPath', paths.absPagesPath);
+  console.log('targetPath', targetPath);
   // 找到具体的 js
   const absTargetPath = join(
     paths.absPagesPath,
     winPath(targetPath).replace(paths.absPagesPath, ''),
   );
 
-  debug('absTargetPath', absTargetPath);
+  console.log('absTargetPath', absTargetPath);
 
   // 有些用户路由下载路径是不在的，这里拦住他们
   if (
@@ -44,7 +44,7 @@ export default async ({ success, payload, api, failure }: IHandlerOpts) => {
     // Bar => Bar.(tsx|jsx|js|jsx)
     findJS({ base: absTargetPath, fileNameWithoutExt: '' });
 
-  debug('entryPath', entryPath);
+  console.log('entryPath', entryPath);
 
   if (!entryPath) {
     failure({

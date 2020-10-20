@@ -196,7 +196,7 @@ export default () => {
           layoutIndexByFilename = {};
 
           const { filename, opts = {} } = state;
-
+          
           assert(opts.doTransform, 'opts.doTransform must supplied');
           if (!opts.doTransform(filename)) return;
           const { node } = path;

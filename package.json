@@ -15,7 +15,6 @@
     "doc:dev": "cd ./website && npm run dev",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx packages",
     "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty packages",
-    "precommit": "lint-staged",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "release": "lerna-changelog && node ./scripts/release.js",
     "test": "umi-test",

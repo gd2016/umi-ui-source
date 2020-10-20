@@ -95,6 +95,7 @@ export default (api: IApi) => {
                   }
                 }
               } catch (e) {
+                console.log('libPkg error', e);
                 debug('libPkg error', e);
               }
               return null;
@@ -112,7 +113,7 @@ export default (api: IApi) => {
           type: api.ApplyPluginsType.modify,
           initialValue: resources,
         });
-        debug('resouces', resources);
+        console.log('resouces', resources);
         const handlerOpts: IHandlerOpts = {
           api,
           success,

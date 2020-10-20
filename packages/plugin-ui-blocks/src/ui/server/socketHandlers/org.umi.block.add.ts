@@ -25,7 +25,7 @@ export default async function({ blockService, success, payload }: IHandlerOpts) 
     });
   }
   const params = isDumi ? { ...payload, files, dependencies } : payload;
-  debug('params', params);
+  console.log('args', params);
   await blockService.run(params);
   success({
     data: {

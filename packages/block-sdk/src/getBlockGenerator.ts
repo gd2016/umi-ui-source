@@ -158,13 +158,15 @@ export function getMockDependencies(mockContent, blockPkg) {
   };
   const deps = {};
   try {
+    console.log('crequire:', crequire(mockContent));
+    
     crequire(mockContent).forEach(item => {
       if (allDependencies[item.path]) {
         deps[item.path] = allDependencies[item.path];
       }
     });
   } catch (e) {
-    debug('parse mock content failed');
+    console.log('parse mock content failed');
     debug(e);
   }
 
@@ -192,30 +194,49 @@ export const getBlockGenerator = (api: IApi) => {
 
   return class BlockGenerator extends Generator {
     public isTypeScript;
+
     // 区块源目录路径（/tmp）
     public sourcePath;
+
     public dryRun;
+
     // 相对 pages 的目录
     public path;
+
     // 区块添加的目标路径
     public blockFolderPath;
+
     // 添加到的路由
     public routePath;
+
     public blockName;
+
     public isPageBlock;
+
     public execution;
+
     public needCreateNewRoute;
+
     public blockFolderName;
+
     public entryPath;
+
     public routes;
+
     public on;
+
     public prompt;
+
     public fs;
+
     public store;
+
     // 添加的 资产类型
     public blockType: 'block' | 'template';
+
     // 添加方式
     public addType: 'git' | 'files' = 'git';
+
     public files: string[];
 
     constructor({ args, name }) {
@@ -229,7 +250,7 @@ export const getBlockGenerator = (api: IApi) => {
       this.sourcePath = args.sourcePath;
       this.dryRun = args.dryRun;
       this.path = args.path;
-      debug('this.path', this.path);
+      console.log('this.path', this.path);
       this.routePath = args.routePath || args.path;
       this.blockName = args.blockName;
       this.isPageBlock = args.isPageBlock;
@@ -249,10 +270,10 @@ export const getBlockGenerator = (api: IApi) => {
 
     run(): Promise<any> {
       return new Promise((resolve, reject) => {
-        debug('run writing');
+        console.log('run writing');
         this.writing()
           .then(() => {
-            debug('run commit');
+            console.log('run commit');
             this.fs.commit(() => {
               resolve();
             });
@@ -266,8 +287,8 @@ export const getBlockGenerator = (api: IApi) => {
     // git 类型写入
     async gitBlockWriting() {
       let targetPath = winPath(join(paths.absPagesPath, this.path));
-      debug(`this.path`, this.path);
-      debug(`get targetPath ${targetPath}`);
+      console.log(`this.path`, this.path);
+      console.log(`get targetPath ${targetPath}`);
 
       // for old page block check for duplicate path
       // if there is, prompt for input a new path
@@ -296,7 +317,7 @@ export const getBlockGenerator = (api: IApi) => {
           this.path = `/${this.path}`;
         }
         targetPath = join(paths.absPagesPath, this.path);
-        debug(`targetPath exist get new targetPath ${targetPath}`);
+        console.log(`targetPath exist get new targetPath ${targetPath}`);
       }
 
       // 如果路由重复，重新输入
@@ -317,13 +338,13 @@ export const getBlockGenerator = (api: IApi) => {
           },
         ]);
         this.routePath = routePrompt.routePath;
-        debug(`router path exist get new targetPath ${this.routePath}`);
+        console.log(`router path exist get new targetPath ${this.routePath}`);
       }
 
       this.blockFolderPath = targetPath;
 
       const blockPath = this.path;
-      debug(`blockPath is ${blockPath}`);
+      console.log(`blockPath is ${blockPath}`);
 
       await applyPlugins({
         key: 'beforeBlockWriting',
@@ -335,7 +356,7 @@ export const getBlockGenerator = (api: IApi) => {
       });
 
       if (this.dryRun) {
-        debug('dryRun is true, skip copy files');
+        console.log('dryRun is true, skip copy files');
         return;
       }
 
@@ -353,11 +374,11 @@ export const getBlockGenerator = (api: IApi) => {
           },
         ]);
         this.blockFolderName = blockFolderNamePrompt.path;
-        debug('this.blockFolderName', this.blockFolderName);
+        console.log('this.blockFolderName', this.blockFolderName);
         // if (!/^\//.test(blockFolderName)) {
         //   blockFolderName = `/${blockFolderName}`;
         // }
-        debug(`blockFolderName exist get new blockFolderName ${this.blockFolderName}`);
+        console.log(`blockFolderName exist get new blockFolderName ${this.blockFolderName}`);
       }
 
       // create container
@@ -371,8 +392,8 @@ export const getBlockGenerator = (api: IApi) => {
           fileNameWithoutExt: 'index',
         });
 
-      debug('this.entryPath', this.entryPath);
-      debug('targetPath', targetPath);
+      console.log('this.entryPath', this.entryPath);
+      console.log('targetPath', targetPath);
 
       if (!this.isPageBlock && !existsSync(this.entryPath)) {
         const confirmResult = (
@@ -389,10 +410,10 @@ export const getBlockGenerator = (api: IApi) => {
           throw new Error('You stop it!');
         }
 
-        debug('start to generate the entry file for block(s) under the path...');
+        console.log('start to generate the entry file for block(s) under the path...');
 
         this.needCreateNewRoute = true;
-        debug('blockConfig.entryTemplatePath', blockConfig.entryTemplatePath);
+        console.log('blockConfig.entryTemplatePath', blockConfig.entryTemplatePath);
         const defaultBlockEntryTplPath = join(winPath(__dirname), 'blockEntry.js.tpl');
         const blockEntryTpl = readFileSync(
           blockConfig.entryTemplatePath || defaultBlockEntryTplPath,
@@ -402,15 +423,15 @@ export const getBlockGenerator = (api: IApi) => {
           blockEntryName: `${this.path.slice(1)}Container`,
         };
         const entry = Mustache.render(blockEntryTpl, tplContent);
-        debug('targetPath', targetPath);
+        console.log('targetPath', targetPath);
         mkdirp.sync(targetPath);
-        debug('this.entryPath2', this.entryPath);
+        console.log('this.entryPath2', this.entryPath);
         writeFileSync(this.entryPath, entry);
       }
 
       // copy block to target
       // you can find the copy api detail in https://github.com/SBoudrias/mem-fs-editor/blob/master/lib/actions/copy.js
-      debug('start copy block file to your project...');
+      console.log('start copy block file to your project...');
 
       // 替换 相对路径
       // eslint-disable-next-line
@@ -443,11 +464,11 @@ export const getBlockGenerator = (api: IApi) => {
               targetPath: winPath(itemTargetPath),
             },
           });
-          debug('itemTargetPath', winPath(itemTargetPath));
+          console.log('itemTargetPath', winPath(itemTargetPath));
           return blockFile;
         };
 
-        debug('folderPath', folderPath);
+        console.log('folderPath', folderPath);
         if (existsSync(folderPath)) {
           // eslint-disable-next-line no-restricted-syntax
           for (let name of readdirSync(folderPath)) {
@@ -471,7 +492,7 @@ export const getBlockGenerator = (api: IApi) => {
                 sourceName: name,
               },
             });
-            debug(`copy ${thePath} to ${realTarget}`);
+            console.log(`copy ${thePath} to ${realTarget}`);
 
             // eslint-disable-next-line no-await-in-loop
             await this.fs.copyAsync(winPath(thePath), winPath(realTarget), { process });
@@ -482,8 +503,8 @@ export const getBlockGenerator = (api: IApi) => {
 
     async filesBlockWriting() {
       let targetPath = winPath(join(paths.absPagesPath, this.path));
-      debug(`this.path`, this.path);
-      debug(`get targetPath ${targetPath}`);
+      console.log(`this.path`, this.path);
+      console.log(`get targetPath ${targetPath}`);
 
       // for old page block check for duplicate path
       // if there is, prompt for input a new path
@@ -500,7 +521,7 @@ export const getBlockGenerator = (api: IApi) => {
           this.path = `/${this.path}`;
         }
         targetPath = join(paths.absPagesPath, this.path);
-        debug(`targetPath exist get new targetPath ${targetPath}`);
+        console.log(`targetPath exist get new targetPath ${targetPath}`);
       }
 
       // 如果路由重复，重新输入
@@ -510,27 +531,27 @@ export const getBlockGenerator = (api: IApi) => {
             `router path ${this.routePath} already exist, press input a new path for it`,
           );
         }
-        debug(`router path exist get new targetPath ${this.routePath}`);
+        console.log(`router path exist get new targetPath ${this.routePath}`);
       }
 
       this.blockFolderPath = targetPath;
 
       const blockPath = this.path;
-      debug(`blockPath is ${blockPath}`);
+      console.log(`blockPath is ${blockPath}`);
 
       if (this.dryRun) {
-        debug('dryRun is true, skip copy files');
+        console.log('dryRun is true, skip copy files');
         return;
       }
 
       // check for duplicate block name under the path
       // if there is, prompt for a new block name
       while (!this.isPageBlock && existsSync(join(targetPath, this.blockFolderName))) {
-        debug('this.blockFolderName', this.blockFolderName);
+        console.log('this.blockFolderName', this.blockFolderName);
         // if (!/^\//.test(blockFolderName)) {
         //   blockFolderName = `/${blockFolderName}`;
         // }
-        debug(`blockFolderName exist get new blockFolderName ${this.blockFolderName}`);
+        console.log(`blockFolderName exist get new blockFolderName ${this.blockFolderName}`);
       }
 
       // create container
@@ -543,8 +564,8 @@ export const getBlockGenerator = (api: IApi) => {
           base: targetPath,
           fileNameWithoutExt: 'index',
         });
-      debug('this.entryPath', this.entryPath);
-      debug('targetPath', targetPath);
+      console.log('this.entryPath', this.entryPath);
+      console.log('targetPath', targetPath);
 
       if (!this.isPageBlock && !existsSync(this.entryPath)) {
         const confirmResult = (
@@ -561,10 +582,10 @@ export const getBlockGenerator = (api: IApi) => {
           throw new Error('You stop it!');
         }
 
-        debug('start to generate the entry file for block(s) under the path...');
+        console.log('start to generate the entry file for block(s) under the path...');
 
         this.needCreateNewRoute = true;
-        debug('blockConfig.entryTemplatePath', blockConfig.entryTemplatePath);
+        console.log('blockConfig.entryTemplatePath', blockConfig.entryTemplatePath);
         const defaultBlockEntryTplPath = join(winPath(__dirname), 'blockEntry.js.tpl');
         const blockEntryTpl = readFileSync(
           blockConfig.entryTemplatePath || defaultBlockEntryTplPath,
@@ -574,15 +595,15 @@ export const getBlockGenerator = (api: IApi) => {
           blockEntryName: `${this.path.slice(1)}Container`,
         };
         const entry = Mustache.render(blockEntryTpl, tplContent);
-        debug('targetPath', targetPath);
+        console.log('targetPath', targetPath);
         mkdirp.sync(targetPath);
-        debug('this.entryPath2', this.entryPath);
+        console.log('this.entryPath2', this.entryPath);
         writeFileSync(this.entryPath, entry);
       }
 
       // copy block to target
       // you can find the copy api detail in https://github.com/SBoudrias/mem-fs-editor/blob/master/lib/actions/copy.js
-      debug('start files block file to your project...');
+      console.log('start files block file to your project...');
 
       // 替换 相对路径
       // eslint-disable-next-line
@@ -591,7 +612,7 @@ export const getBlockGenerator = (api: IApi) => {
         //   // @ folder not support anymore in new specVersion
         //   return;
         // }
-        debug('this.blockFolderName', this.blockFolderName);
+        console.log('this.blockFolderName', this.blockFolderName);
         let targetFolder;
         if (this.isPageBlock) {
           targetFolder = folder === 'src' ? targetPath : paths.absSrcPath;
@@ -615,11 +636,11 @@ export const getBlockGenerator = (api: IApi) => {
               targetPath: winPath(itemTargetPath),
             },
           });
-          debug('itemTargetPath', winPath(itemTargetPath));
+          console.log('itemTargetPath', winPath(itemTargetPath));
           return blockFile;
         };
 
-        debug('files', Object.keys(this.files || {}));
+        console.log('files', Object.keys(this.files || {}));
         if (Object.keys(this.files || {}).length > 0) {
           if (!existsSync(targetFolder)) {
             mkdirp.sync(targetFolder);
@@ -631,7 +652,7 @@ export const getBlockGenerator = (api: IApi) => {
               return;
             }
             const realTarget = join(targetFolder, name);
-            debug(`write ${name} to ${realTarget}`);
+            console.log(`write ${name} to ${realTarget}`);
             if (this.files[name]) {
               // eslint-disable-next-line no-await-in-loop
               const content = await process(this.files[name], realTarget);
@@ -643,7 +664,7 @@ export const getBlockGenerator = (api: IApi) => {
     }
 
     async writing(): Promise<void> {
-      debug('this.addType', this.addType);
+      console.log('this.addType', this.addType);
       if (this.addType !== 'files') {
         await this.gitBlockWriting();
       } else {
