@@ -34,7 +34,7 @@ export const getBasicScriptContent = script => {
   window.define = oldDefine;`.trim();
 };
 
-export function getFromScriptContent(scripts) {
+export function getFromScriptContent(scripts) { // define(["antd", "react"], factory);主要解决外部依赖的问题
   return `
 window.g_uiPlugins = [];
 const oldDefine = window.define;

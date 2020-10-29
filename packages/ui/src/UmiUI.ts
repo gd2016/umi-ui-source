@@ -897,6 +897,8 @@ export default class UmiUI {
       const app = express();
       app.use(compression());
       // Serve Static (Production Only)
+      console.log('LOCAL_DEBUG',process.env.LOCAL_DEBUG);
+      
       if (!process.env.LOCAL_DEBUG) {
         app.use(
           express.static(join(__dirname, '..', 'web/dist'), {
@@ -1007,6 +1009,8 @@ export default class UmiUI {
                 },
               );
             } else {
+              console.log('init ui-onUISocket event');
+              
               assert(this.servicesByKey[key], `service of key ${key} not exists.`);
               const service = this.servicesByKey[key];
               await service.applyPlugins({

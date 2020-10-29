@@ -1,4 +1,5 @@
 import React from 'react';
+import ButtonBasic from './ButtonBasic';
 export default function() {
   // console.log(<GUmiUIFlag/>)
   // const Test = function(){
@@ -6,7 +7,7 @@ export default function() {
   // }
   return (
     <div>
-      1
+      <ButtonBasic />1
     </div>
   );
 }

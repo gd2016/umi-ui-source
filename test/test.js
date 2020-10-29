@@ -9,7 +9,8 @@ const t = require('@babel/types');
 
 const oldEntry = readFileSync('./index.tsx', 'utf-8');
 const ast = parseContent(oldEntry);
-
+// const test = require('@umijs/plugin-blocks')
+// console.log(test.default());
 traverse.default(ast, {
   Program: {
     enter(path) {

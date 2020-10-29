@@ -72,7 +72,7 @@ const initUIPlugin = async (initOpts = {}) => {
   // Init the plugins
   window.g_uiPlugins.forEach(uiPlugin => {
     // only readable
-    uiPlugin(Object.freeze(new PluginAPI(service, currentProject)));
+    uiPlugin(Object.freeze(new PluginAPI(service, currentProject))); // api
   });
 };
 
@@ -112,6 +112,7 @@ export async function render(oldRender): void {
   } catch (e) {
     console.error('Init socket failed', e);
   }
+  
   ReactDOM.render(
     React.createElement(require('./pages/loading').default, {}),
     document.getElementById('root'),

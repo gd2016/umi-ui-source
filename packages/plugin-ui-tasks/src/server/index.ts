@@ -4,6 +4,8 @@ import { formatEnv } from './util';
 
 const taskManger: TaskManager = new TaskManager();
 export default (api: IApi) => {
+  console.log('init uiSocket');
+  
   api.onUISocket(({ action: { type, payload }, send, log }) => {
     switch (type) {
       case 'plugin/init':

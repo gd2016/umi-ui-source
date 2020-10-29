@@ -11,11 +11,11 @@ export default (api: IApi) => {
 
   return {
     plugins: [
-      require.resolve('./registerMethods'),
-      require.resolve('./UmiUIFlag'),
-      require.resolve('./commands/ui'),
+      require.resolve('./registerMethods'), // 在Iapi基础上注册umi-ui自己的新方法
+      // require.resolve('./UmiUIFlag'),
+      require.resolve('./commands/ui'), // 启动umi-ui界面及服务
       ...(injectBubble ? [require.resolve('./addBubble')] : []),
-      require.resolve('./plugins/dashboard/index'),
+      require.resolve('./plugins/dashboard/index'), // 引入插件
       // TODO: 配置有变动，先关闭
       // require.resolve('./plugins/configuration/index'),
       require.resolve('@umijs/plugin-ui-tasks'),

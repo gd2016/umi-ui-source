@@ -24,6 +24,7 @@
     "cross-env": "^7.0.0"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.2.2",
     "@ant-design/pro-layout": "^6.5.5",
     "antd": "^4.0.0",
     "umi-request": "^1.2.18"

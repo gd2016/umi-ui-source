@@ -14,6 +14,8 @@ export default (ctx: Partial<IContext>) => async (req: Request, res: Response) =
   // Index Page
   let content = null;
   const localeDebug = !existsSync(join(winPath(__dirname), '../../web/dist/index.html'));
+  console.log('localeDebug',localeDebug);
+  
   if (localeDebug) {
     try {
       const { body } = await got(`http://127.0.0.1:8002${req.path}`);

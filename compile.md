@@ -39,7 +39,7 @@ UI 插件与普通 Umi 的插件实际是一样的原理。
 1. 通过window.postMessage通信
 2. 通过babel插件，来注入一系列代码
 
-## 创建与导入项目用到的 package 
+## 用到的 package 
 
 1. yeoman-generator  脚手架生成工具
 2. resolve-from  解析文件路径
@@ -53,3 +53,21 @@ UI 插件与普通 Umi 的插件实际是一样的原理。
 10. mem-fs mem-fs-editor 拷贝文件
 11. babel系列包
 12. mustache
+
+
+## 工具
+
+1. lerna + yarn workspaces 的 monorepos项目
+2. babel插件编写
+
+
+## 项目启动流程及插件加载调用
+
+1. 项目本身暂时是作为umi插件启动，后期作者会改为全局包
+2. 入口文件：preset-ui(依次调用) 
+   1. registerMethods.js注册umi-ui新方法（addUIPlugin/ui界面, onUISocket/serve服务端:主要处理websocket请求）
+   2. 启动umi-ui主界面及服务(开发调试socket服务在3000， 页面在8002会跨域，所以通过routes/common代理)
+   3. addBubble  umi-ui辅助工具
+   4. 引入ui插件
+3. 加载插件（tasks、blocks）addUiPlugin(解析ui插件文件)) onUISocket（websocket处理服务）
+4. UI界面是调用插件的? 获取插件umd文件，通过eval执行并传递PluginAPI参数
