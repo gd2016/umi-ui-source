@@ -1009,8 +1009,6 @@ export default class UmiUI {
                 },
               );
             } else {
-              console.log('init ui-onUISocket event');
-              
               assert(this.servicesByKey[key], `service of key ${key} not exists.`);
               const service = this.servicesByKey[key];
               await service.applyPlugins({

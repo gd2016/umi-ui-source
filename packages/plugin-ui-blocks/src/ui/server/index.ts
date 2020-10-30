@@ -113,7 +113,6 @@ export default (api: IApi) => {
           type: api.ApplyPluginsType.modify,
           initialValue: resources,
         });
-        console.log('resouces', resources);
         const handlerOpts: IHandlerOpts = {
           api,
           success,

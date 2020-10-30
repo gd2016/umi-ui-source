@@ -132,7 +132,7 @@ export default {
     },
   },
   subscriptions: {
-    setup({ history, dispatch }) {
+    setup({ history, dispatch }) { // 相当于vue的mounted
       history.listen(({ pathname }) => {
         if (init) {
           return;

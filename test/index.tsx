@@ -1,18 +1,13 @@
 import React from 'react';
 
 export default function() {
-  function Rp() {
-    return React.createElement(
-      'p',
-      {
-        a: '1',
-        b: '2',
-      },
-      12,
-    );
-  }
 
-  return <div>12</div>;
+
+  return (
+    <div>
+      <p>123</p>
+    </div>
+  )
 }
 
 // export default class WrappedRegistrationForm extends React.Component {

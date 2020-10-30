@@ -71,3 +71,31 @@ UI 插件与普通 Umi 的插件实际是一样的原理。
    4. 引入ui插件
 3. 加载插件（tasks、blocks）addUiPlugin(解析ui插件文件)) onUISocket（websocket处理服务）
 4. UI界面是调用插件的? 获取插件umd文件，通过eval执行并传递PluginAPI参数
+
+
+## task插件
+
+### 创建项目
+
+1. 安装umi-ui生成器
+2. 安装依赖，进入create-umi通过generator生成项目
+3. 根据模板package.json删除多余的文件，或者ts文件转化为js文件
+
+### 启动项目
+
+1. 使用了dva的数据流，调用exec执行任务，向后端发送callRemote请求
+2. 后端接受请求并执行项目scripts脚本
+3. terminal通信：
+   1. 通过runCommand返回的子进程对象获取log
+   2. 触发监听事件：TaskEventType.STD_OUT_DATA
+   3. send（websocket）方法发送log到客户端
+   4. 由于发送日志的type在serve没有声明，客户端是通过监听listenRemote获取到log
+   5. 获取到客户端terminal元素写入log
+
+
+## blocks插件
+
+### 插入资产
+
+1. 注入GUmiUIFlag全局组件
+2. 注入babel插件

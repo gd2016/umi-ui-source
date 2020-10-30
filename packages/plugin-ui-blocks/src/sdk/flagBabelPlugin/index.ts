@@ -1,6 +1,7 @@
 import assert from 'assert';
 import { utils } from 'umi';
 import * as t from '@babel/types';
+import { file } from '@babel/types';
 import {
   findExportDefaultDeclaration,
   getIdentifierDeclaration,
@@ -194,9 +195,12 @@ export default () => {
         enter(path, state) {
           // hmr 时会重复编译相同文件
           layoutIndexByFilename = {};
-
+          
           const { filename, opts = {} } = state;
           
+          if(filename==='/Users/guoding/source-pro/umi-ui/examples/app/src/pages/index.tsx'){
+            console.log(state);
+          }
           assert(opts.doTransform, 'opts.doTransform must supplied');
           if (!opts.doTransform(filename)) return;
           const { node } = path;
