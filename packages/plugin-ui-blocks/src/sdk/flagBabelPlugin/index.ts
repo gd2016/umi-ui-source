@@ -198,9 +198,9 @@ export default () => {
           
           const { filename, opts = {} } = state;
           
-          if(filename==='/Users/guoding/source-pro/umi-ui/examples/app/src/pages/index.tsx'){
-            console.log(state);
-          }
+          // if(filename==='/Users/guoding/source-pro/umi-ui/examples/app/src/pages/index.tsx'){
+          //   console.log(state);
+          // }
           assert(opts.doTransform, 'opts.doTransform must supplied');
           if (!opts.doTransform(filename)) return;
           const { node } = path;
