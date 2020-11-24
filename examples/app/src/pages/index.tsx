@@ -7,7 +7,7 @@ export default function() {
   // }
   return (
     <div>
-      <ButtonBasic />1
+      <ButtonBasic />
     </div>
   );
 }

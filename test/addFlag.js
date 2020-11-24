@@ -180,7 +180,7 @@ function getIdentifierDeclaration(node, path) {
   // 处理 HOC 的情况，将 HOC 里的 Identifier 筛选出来
   if (
     t.isCallExpression(node) &&
-    node.arguments?.length > 0 &&
+    node.arguments.length > 0 &&
     node.arguments.some(argument => t.isIdentifier(argument))
   ) {
     identifierNode = node.arguments.find(argument => t.isIdentifier(argument));
