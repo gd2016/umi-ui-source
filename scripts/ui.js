@@ -5,7 +5,7 @@ const { existsSync } = require('fs');
 
 const UMI_BIN = require.resolve('umi/bin/umi');
 const UI_BUILD_BIN = require.resolve('../packages/ui-builder/bin/index.js');
-
+console.log(UI_BUILD_BIN);
 const getPackages = require('./getPackage');
 
 const watch = process.argv.includes('-w') || process.argv.includes('--watch');

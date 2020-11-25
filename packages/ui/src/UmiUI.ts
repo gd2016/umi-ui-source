@@ -485,6 +485,7 @@ export default class UmiUI {
           stepStatus: 1,
         });
         clearModule(creatorPath);
+        console.log('creatorPath:',creatorPath);
         await require(creatorPath).run({
           cwd: targetDir,
           type: createOpts.type || {},
