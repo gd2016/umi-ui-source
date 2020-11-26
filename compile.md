@@ -63,7 +63,7 @@ UI 插件与普通 Umi 的插件实际是一样的原理。
 
 ## 项目启动流程及插件加载调用
 
-1. 项目本身暂时是作为umi插件启动，后期作者会改为全局包
+1. 项目本身暂时是作为umi插件启动，后期作者会改为全局包（同vue ui ）
 2. 入口文件：preset-ui(依次调用) 
    1. registerMethods.js注册umi-ui新方法（addUIPlugin/ui界面, onUISocket/serve服务端:主要处理websocket请求）
    2. 启动umi-ui主界面及服务(开发调试socket服务在3000， 页面在8002会跨域，所以通过routes/common代理)
