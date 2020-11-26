@@ -95,7 +95,13 @@ UI 插件与普通 Umi 的插件实际是一样的原理。
 
 ## blocks插件
 
-### 插入资产
+### 插入资产（babel插件）
 
-1. 注入GUmiUIFlag全局组件
-2. 注入babel插件
+1. 注入GUmiUIFlag全局组件（babel插件）
+2. 插入区块
+   1. 解析 url => git 地址
+   2. 如果不存在，则 git clone 到本地临时目录
+   3. git pull 更新到最新分支
+   4. 依赖处理，处理依赖冲突、依赖安装、依赖写入
+   5. 写区块到项目目录中（nodeJs copy 到目标路径）
+   6. 写路由改文件内容（babel插件）

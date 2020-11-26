@@ -9,8 +9,7 @@ const t = require('@babel/types');
 
 const oldEntry = readFileSync('./import.tsx', 'utf-8');
 const ast = parseContent(oldEntry);
-// const test = require('@umijs/plugin-blocks')
-// console.log(test.default());
+console.dir(ast);
 traverse.default(ast, {
   Program: {
     enter(path) {
@@ -21,8 +20,10 @@ traverse.default(ast, {
         // eslint-disable-next-line
         d = d.arguments[0];
       }
-
+      
       d = getIdentifierDeclaration(d, path);
+      console.log(d);
+      return 
       // // Support hoc again
       while (t.isCallExpression(d)) {
         // eslint-disable-next-line
@@ -99,6 +100,8 @@ function parseContent(code) {
     plugins: ['jsx', 'decorators-legacy', 'typescript', 'classProperties', 'dynamicImport'],
   });
 }
+
+
 function findExportDefaultDeclaration(programNode) {
   for (const n of programNode.body) {
     if (t.isExportDefaultDeclaration(n)) {
@@ -106,7 +109,6 @@ function findExportDefaultDeclaration(programNode) {
     }
   }
 }
-
 
 
 function getIdentifierDeclaration(node, path) {
@@ -220,11 +222,4 @@ function findIndex(arr, index, fn) {
   }
 
   throw new Error(`Invalid find index params.`);
-}
-
-function parseContent(code) {
-  return parser.parse(code, {
-    sourceType: 'module',
-    plugins: ['jsx', 'decorators-legacy', 'typescript', 'classProperties', 'dynamicImport'],
-  });
 }
